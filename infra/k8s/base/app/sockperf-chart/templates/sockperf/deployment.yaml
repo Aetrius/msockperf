@@ -23,7 +23,7 @@ spec:
         # ports:
         # - name: web #web interface
         #   containerPort: "{{ .Values.sockperfServer.sockperfPort }}"
-        command: ["/bin/bash", "-c", "sockperf", "server", "-p", "{{ .Values.sockperfServer.sockperfPort }}", "--tcp"] # command to run a shell and keep it running
+        command: ["/bin/bash", "-c", "sockperf server -p {{ .Values.sockperfServer.sockperfPort }} --tcp"]
         resources:
           requests:
             cpu: 100m
