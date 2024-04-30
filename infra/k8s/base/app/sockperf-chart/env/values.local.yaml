@@ -14,5 +14,5 @@ sockperfServer:
   image: ghcr.io/aetrius/msockperf-server/msockperf-server:main
   replicaCount: 1
   revisionHistoryLimit: 1
-  sockperfPort: 443
-  webPort: 443
+  sockperfPort: 11111
+  webPort: 11111

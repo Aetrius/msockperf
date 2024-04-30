@@ -14,7 +14,7 @@ msockperf:
   image: ghcr.io/aetrius/msockperf-client/msockperf-client:main
   replicaCount: 1
   revisionHistoryLimit: 1
-  webPort: 8082
+  webPort: 11111
   namespace: default
-  remoteHost: msockperf-service.sre-msockperf-exporter
-  remotePort: 443
+  remoteHost: 10.43.102.222
+  remotePort: 11111

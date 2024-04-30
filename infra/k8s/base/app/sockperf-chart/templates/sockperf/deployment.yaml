@@ -23,7 +23,7 @@ spec:
         command: ["/bin/bash", "-c", "sockperf server -p {{ .Values.sockperfServer.sockperfPort }} -i $(POD_IP) --tcp"]
         ports:
         - name: msockperf #web interface
-          containerPort: "{{ .Values.sockperfServer.sockperfPort }}"
+          containerPort: {{ .Values.sockperfServer.sockperfPort }}
         # command: ["./msockperf"]
         env:
         - name: POD_IP
