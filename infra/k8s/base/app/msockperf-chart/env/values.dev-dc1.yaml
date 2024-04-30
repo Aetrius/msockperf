@@ -5,16 +5,16 @@ namespace: sre-msockperf-exporter
 # imagePullSecret: regcred
 
 environmentDomain: msockperf.env.domainname.com
-# Generic Configurations for Pure Flash Array
+
 config:
 
 msockperf:
   serviceName: msockperf-service
   appName: msockperf-app
-  image: 
+  image: ghcr.io/aetrius/msockperf-server/msockperf-server:main
   replicaCount: 1
   revisionHistoryLimit: 1
-  webPort: 
+  webPort: 443
   namespace: default
   remoteHost: test.svc.default
   remotePort: 11111

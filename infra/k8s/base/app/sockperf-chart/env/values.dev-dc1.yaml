@@ -5,13 +5,13 @@ namespace: sre-sockperf-server
 # imagePullSecret: regcred
 
 environmentDomain: sockperf.env.domainname.com
-# Generic Configurations for Pure Flash Array
+
 config:
 
 sockperfServer:
   serviceName: sockperf-server-service
   appName: sockperf-app
-  image: 
+  image: ghcr.io/aetrius/msockperf-client/msockperf-client:main
   replicaCount: 1
   revisionHistoryLimit: 1
   sockperfPort: 443
