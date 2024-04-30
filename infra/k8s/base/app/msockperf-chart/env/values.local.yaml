@@ -16,5 +16,5 @@ msockperf:
   revisionHistoryLimit: 1
   webPort: 8082
   namespace: default
-  remoteHost: msockperf-service.sre-msockperf-exporter.svc
+  remoteHost: msockperf-service
   remotePort: 443
