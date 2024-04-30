@@ -1,0 +1,45 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ubuntu_server:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Login to Docker registry
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin ${{ secrets.DOCKER_REGISTRY }}
+
+      - name: Build and push Docker image
+        run: |
+          export COMMIT_SHA=$(git rev-parse HEAD)
+          docker build -t ${{ secrets.DOCKER_REGISTRY }}/your-image-name:$COMMIT_SHA -f Dockerfile-ubuntu-server .
+          docker push ${{ secrets.DOCKER_REGISTRY }}/your-image-name:$COMMIT_SHA
+
+      - name: Cleanup
+        run: docker logout
+
+  ubuntu_client:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Login to Docker registry
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin ${{ secrets.DOCKER_REGISTRY }}
+
+      - name: Build and push Docker image
+        run: |
+          export COMMIT_SHA=$(git rev-parse HEAD)
+          docker build -t ${{ secrets.DOCKER_REGISTRY }}/your-image-name:$COMMIT_SHA -f Dockerfile-ubuntu-client .
+          docker push ${{ secrets.DOCKER_REGISTRY }}/your-image-name:$COMMIT_SHA
+
+      - name: Cleanup
+        run: docker logout
