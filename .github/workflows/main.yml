@@ -1,26 +1,55 @@
-name: Docker Build and Push
-
+name: Build Docker Image
+env:
+  TARGET_PLATFORMS: linux/amd64,linux/arm64
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 on:
+  pull_request: {}
   push:
     branches:
-      - main
+      - 'main'
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
-  build_and_push_image:
+  build-image:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        name: Checkout repository
+        with:
+          submodules: true
 
-      - name: Login to GitHub Packages
-        run: echo "${{ secrets.REPO_SECRET }}" | docker login -u "${{ github.actor }}" --password-stdin docker.pkg.github.com
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
 
-      - name: Build and push Docker image
-        run: |
-          export COMMIT_SHA=$(git rev-parse HEAD)
-          docker build -t docker.pkg.github.com/aetrius/msockperf:$COMMIT_SHA -f Dockerfile-ubuntu-server .
-          docker push docker.pkg.github.com/aetrius/msockperf:$COMMIT_SHA
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+          install: true
 
-      - name: Cleanup
-        run: docker logout docker.pkg.github.com
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate docker metadata
+        id: image-meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/passit
+
+      - name: Build and push docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: Dockerfile
+          platforms: ${{ env.TARGET_PLATFORMS }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.image-meta.outputs.tags }}
+          labels: ${{ steps.image-meta.outputs.labels }}
