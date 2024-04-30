@@ -42,13 +42,13 @@ jobs:
         id: image-meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/passit
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/msockperf-server
 
       - name: Build and push docker image
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: Dockerfile
+          file: Dockerfile-ubuntu-server
           platforms: ${{ env.TARGET_PLATFORMS }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.image-meta.outputs.tags }}
