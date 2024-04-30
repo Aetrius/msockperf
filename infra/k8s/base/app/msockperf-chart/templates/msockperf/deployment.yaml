@@ -21,7 +21,6 @@ spec:
       - name: {{ .Values.msockperf.appName }}
         imagePullPolicy: Always
         image: {{ .Values.msockperf.image }}
-        #command: ["/bin/bash", "-c", "sockperf server -p {{ .Values.sockperfServer.sockperfPort }} --tcp"]
         env:
         - name: MSOCK_NAMESPACE
           value: "{{ .Values.msockperf.namespace }}"
