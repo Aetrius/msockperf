@@ -12,6 +12,8 @@ import (
 func RunSockperf(host string, port string) (string, error) {
 	cmd := exec.Command("sockperf", "ping-pong", "-i", host, "-p", port, "--tcp")
 
+	fmt.Println(cmd)
+
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		return "", errors.New(string(output))

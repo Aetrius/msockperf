@@ -21,9 +21,9 @@ spec:
         imagePullPolicy: Always
         image: {{ .Values.sockperfServer.image }}
         command: ["/bin/bash", "-c", "sockperf server -p {{ .Values.sockperfServer.sockperfPort }} --tcp"]
-        # ports:
-        # - name: web #web interface
-        #   containerPort: "{{ .Values.sockperfServer.sockperfPort }}"
+        ports:
+        - name: msockperf #web interface
+          containerPort: "{{ .Values.sockperfServer.sockperfPort }}"
         # command: ["./msockperf"]
         resources:
           requests:

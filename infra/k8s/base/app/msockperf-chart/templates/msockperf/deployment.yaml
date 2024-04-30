@@ -36,21 +36,14 @@ spec:
             cpu: 100m
             memory: 100Mi
           limits:
-            cpu: 150m
-            memory: 120Mi
+            cpu: 600m
+            memory: 1Gi
         readinessProbe:
           httpGet:
             path: /metrics
             port: 8082
-          initialDelaySeconds: 15
+          initialDelaySeconds: 4
           periodSeconds: 10
           timeoutSeconds: 5
           successThreshold: 1
           failureThreshold: 3
-        resources:
-          requests:
-            cpu: 100m
-            memory: 100Mi
-          limits:
-            cpu: 150m
-            memory: 120Mi
