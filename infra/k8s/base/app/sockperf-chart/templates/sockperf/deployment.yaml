@@ -20,11 +20,16 @@ spec:
       - name: {{ .Values.sockperfServer.appName }}
         imagePullPolicy: Always
         image: {{ .Values.sockperfServer.image }}
-        command: ["/bin/bash", "-c", "sockperf server -p {{ .Values.sockperfServer.sockperfPort }} --tcp"]
+        command: ["/bin/bash", "-c", "sockperf server -p {{ .Values.sockperfServer.sockperfPort }} -i $(POD_IP) --tcp"]
         ports:
         - name: msockperf #web interface
           containerPort: "{{ .Values.sockperfServer.sockperfPort }}"
         # command: ["./msockperf"]
+        env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
         resources:
           requests:
             cpu: 100m
