@@ -14,7 +14,7 @@ msockperf:
   image: ghcr.io/aetrius/msockperf-server/msockperf-server:main
   replicaCount: 1
   revisionHistoryLimit: 1
-  webPort: 443
+  webPort: 8082
   namespace: default
   remoteHost: test.svc.default
-  remotePort: 11111
+  remotePort: 443
