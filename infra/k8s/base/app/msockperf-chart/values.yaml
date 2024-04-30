@@ -5,7 +5,7 @@ namespace: sre-msockperf-exporter
 # imagePullSecret: regcred
 
 environmentDomain: msockperf.env.domainname.com
-# Generic Configurations for Pure Flash Array
+
 config:
 
 msockperf:

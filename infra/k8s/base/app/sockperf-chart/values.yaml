@@ -5,7 +5,7 @@ namespace: sre-sockperf-server
 # imagePullSecret: regcred
 
 environmentDomain: sockperf.env.domainname.com
-# Generic Configurations for Pure Flash Array
+
 config:
 
 sockperfServer:
