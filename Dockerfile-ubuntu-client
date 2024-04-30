@@ -1,0 +1,22 @@
+# Use Ubuntu as the base image
+FROM ubuntu:latest
+
+# Install Sockperf
+RUN apt-get update && \
+    apt-get install -y sockperf && \
+    apt-get clean
+    
+RUN mkdir /app
+RUN mkdir /app/msockperf
+# Set the working directory
+WORKDIR /app/msockperf
+
+#RUN mkdir /app/msockperf
+# Copy the Sockperf server binary
+COPY msockperf-ubuntu .
+
+# Set executable permission for the binary
+RUN chmod +x /app/msockperf/msockperf-ubuntu
+
+# Start the Sockperf server
+CMD ["/app/msockperf/msockperf-ubuntu"]

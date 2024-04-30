@@ -1,0 +1,13 @@
+# Use Ubuntu as the base image
+FROM ubuntu:latest
+
+# Set the working directory
+WORKDIR /app
+
+# Install Sockperf
+RUN apt-get update && \
+    apt-get install -y sockperf && \
+    apt-get clean
+
+# Start the Sockperf server
+#CMD ["sockperf", "server"]

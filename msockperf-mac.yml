@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  sockperf_server:
+    image: chowmean/sockperf
+    container_name: sockperf_server
+    command: bash -c "sockperf server"
+    platform: linux/amd64
+    ports:
+      - "11111:11111"
+    network_mode: "host"
+
+  sockperf_client:
+    image: chowmean/sockperf
+    container_name: sockperf_client
+    command: "sockperf ping-pong -i 127.0.0.1 -p 11111"
+    platform: linux/amd64
+    depends_on:
+      - sockperf_server
+    network_mode: "host"

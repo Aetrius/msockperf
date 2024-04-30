@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  msockperf-server:
+    build:
+      context: .
+      dockerfile: Dockerfile-ubuntu-server
+    container_name: msockperf-server
+    network_mode: host

@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  msockperf-ubuntu-container:
+    build:
+      context: .
+      dockerfile: Dockerfile-ubuntu-client
+    environment:
+      - MSOCK_NAMESPACE=yeet
+      - MSOCK_REMOTE_HOST=127.0.0.1
+      - MSOCK_REMOTE_PORT=11111
+      
+    container_name: msockperf-ubuntu-container
+    network_mode: host

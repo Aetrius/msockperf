@@ -1,0 +1,32 @@
+stages:
+  - build
+
+variables:
+  DOCKER_BUILD_IMAGE: docker:latest
+  DOCKER_REGISTRY_IMAGE: aetrius/$CI_REGISTRY_IMAGE
+
+msockperf_server:
+  stage: build
+  image: $DOCKER_BUILD_IMAGE
+  services:
+    - docker:dind
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - export COMMIT_SHA=$(git rev-parse HEAD)
+    - docker build -t $DOCKER_REGISTRY_IMAGE:$COMMIT_SHA-server -f Dockerfile-ubuntu-server .
+    - docker push $DOCKER_REGISTRY_IMAGE:$COMMIT_SHA-server
+  only:
+    - main
+
+msockperf_client:
+  stage: build
+  image: $DOCKER_BUILD_IMAGE
+  services:
+    - docker:dind
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - export COMMIT_SHA=$(git rev-parse HEAD)
+    - docker build -t $DOCKER_REGISTRY_IMAGE:$COMMIT_SHA-client -f Dockerfile-ubuntu-client .
+    - docker push $DOCKER_REGISTRY_IMAGE:$COMMIT_SHA-client
+  only:
+    - main
