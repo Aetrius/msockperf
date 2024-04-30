@@ -27,8 +27,10 @@ Run docker-compose to run this exporter adhoc OR run the go code.
 
 ## HELM INSTALLATION / UPGRADE
 helm upgrade msockperf infra/k8s/base/app/msockperf-chart -f infra/k8s/base/app/msockperf-chart/env/values.local.yaml --namespace sre-msockperf-exporter
+helm upgrade sockperf infra/k8s/base/app/sockperf-chart -f infra/k8s/base/app/sockperf-chart/env/values.local.yaml --namespace sre-msockperf-exporter
 
-
+helm install msockperf infra/k8s/base/app/msockperf-chart -f infra/k8s/base/app/msockperf-chart/env/values.local.yaml --namespace sre-msockperf-exporter
+helm install sockperf infra/k8s/base/app/sockperf-chart -f infra/k8s/base/app/sockperf-chart/env/values.local.yaml --namespace sre-msockperf-exporter
 
 ### Example Image
 ![alt text](Images/sockperf.png)
