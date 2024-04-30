@@ -95,6 +95,9 @@ func main() {
 	port = getEnvVars("MSOCK_REMOTE_PORT", port)
 	namespace = getEnvVars("MSOCK_NAMESPACE", namespace)
 
+	// Resolve host if it's not an IP address
+	host = resolveHost(host)
+
 	fmt.Println("Host: ", host)
 	fmt.Println("Port: ", port)
 	fmt.Println("Namespace: ", namespace)

@@ -8,7 +8,7 @@ GOOS=linux
 GOARCH=amd64
 
 # List all source files
-SOURCES=main.go msockperf.go
+SOURCES=main.go msockperf.go resolve.go
 
 # Build the binary
 build:
