@@ -1,0 +1,1 @@
+HELM_KUBECONTEXT=dev-dc1 helm upgrade msockperf-chart msockperf-chart/ --namespace sre-msockperf-exporter -f msockperf-chart/env/values.local.yaml

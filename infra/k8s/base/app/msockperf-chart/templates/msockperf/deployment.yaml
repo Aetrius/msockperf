@@ -1,0 +1,40 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.msockperf.appName }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.msockperf.appName }}
+spec:
+  replicas: {{ .Values.msockperf.replicaCount }}
+  revisionHistoryLimit: {{ .Values.msockperf.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      app: {{ .Values.msockperf.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.msockperf.appName }}
+    spec:
+      containers:
+      - name: {{ .Values.msockperf.appName }}
+        imagePullPolicy: Always
+        image: {{ .Values.msockperf.image }}
+        env:
+        - name: MSOCK_NAMESPACE
+          value: {{ .Values.msockperf.namespace }}
+        - name: MSOCK_REMOTE_HOST
+          value: {{ .Values.msockperf.remoteHost }}
+        - name: MSOCK_REMOTE_PORT
+          value: {{ .Values.msockperf.remotePort }}
+        ports:
+        - name: web #web interface
+          containerPort: {{ .Values.msockperf.webPort }}
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 150m
+            memory: 120Mi

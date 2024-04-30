@@ -1,0 +1,20 @@
+# Default values for msockperf
+namespace: sre-msockperf-exporter
+
+# Image Pull Secret from CICD Pipeline
+# imagePullSecret: regcred
+
+environmentDomain: msockperf.env.domainname.com
+# Generic Configurations for Pure Flash Array
+config:
+
+msockperf:
+  serviceName: msockperf-service
+  appName: msockperf-app
+  image: 
+  replicaCount: 1
+  revisionHistoryLimit: 1
+  webPort: 
+  namespace: default
+  remoteHost: test.svc.default
+  remotePort: 11111

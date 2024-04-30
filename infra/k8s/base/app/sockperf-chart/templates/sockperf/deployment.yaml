@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.sockperfServer.appName }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.sockperfServer.appName }}
+spec:
+  replicas: {{ .Values.sockperfServer.replicaCount }}
+  revisionHistoryLimit: {{ .Values.sockperfServer.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      app: {{ .Values.sockperfServer.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.sockperfServer.appName }}
+    spec:
+      containers:
+      - name: {{ .Values.sockperfServer.appName }}
+        imagePullPolicy: Always
+        image: {{ .Values.sockperfServer.image }}
+        ports:
+        - name: web #web interface
+          containerPort: {{ .Values.sockperfServer.webPort }}
+        # env:
+        #   - name: SOCKPERF_PORT
+        #     value: "{{ .Values.sockperfServer.sockperfPort }}" # assuming sockperfPort is a value representing the desired port
+        command: ["/bin/sh", "-c", "sockperf server -p", {{ .Values.sockperfServer.sockperfPort }}] # command to run a shell and keep it running
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 150m
+            memory: 120Mi

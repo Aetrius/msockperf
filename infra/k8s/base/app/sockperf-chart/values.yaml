@@ -1,0 +1,17 @@
+# Default values for msockperf
+namespace: sre-sockperf-server
+
+# Image Pull Secret from CICD Pipeline
+# imagePullSecret: regcred
+
+environmentDomain: sockperf.env.domainname.com
+# Generic Configurations for Pure Flash Array
+config:
+
+sockperfServer:
+  serviceName: sockperf-server-service
+  appName: sockperf-app
+  image: 
+  replicaCount: 1
+  revisionHistoryLimit: 1
+  sockperfPort: 443

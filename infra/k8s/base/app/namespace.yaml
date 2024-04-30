@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sre-msockperf-exporter
+  annotations:
+    #field.cattle.io/projectId: $PROJECT_COMBINED_ID
+  labels:
+    pds.portworx.com/available: "false"
+    owner: "Tyler_Bennet"
