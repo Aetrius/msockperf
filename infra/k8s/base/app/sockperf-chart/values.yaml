@@ -11,7 +11,8 @@ config:
 sockperfServer:
   serviceName: sockperf-server-service
   appName: sockperf-app
-  image: 
+  image: ghcr.io/aetrius/msockperf-server/msockperf-server:main
   replicaCount: 1
   revisionHistoryLimit: 1
-  sockperfPort: 443
+  sockperfPort: 3600
+  webPort: 3600
