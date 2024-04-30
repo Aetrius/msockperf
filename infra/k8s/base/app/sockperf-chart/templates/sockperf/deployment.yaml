@@ -20,13 +20,10 @@ spec:
       - name: {{ .Values.sockperfServer.appName }}
         imagePullPolicy: Always
         image: {{ .Values.sockperfServer.image }}
-        ports:
-        - name: web #web interface
-          containerPort: {{ .Values.sockperfServer.webPort }}
-        # env:
-        #   - name: SOCKPERF_PORT
-        #     value: "{{ .Values.sockperfServer.sockperfPort }}" # assuming sockperfPort is a value representing the desired port
-        command: ["/bin/sh", "-c", "sockperf server -p", {{ .Values.sockperfServer.sockperfPort }}] # command to run a shell and keep it running
+        # ports:
+        # - name: web #web interface
+        #   containerPort: "{{ .Values.sockperfServer.sockperfPort }}"
+        command: ["/bin/bash", "-c", "sockperf", "server", "-p", "{{ .Values.sockperfServer.sockperfPort }}"] # command to run a shell and keep it running
         resources:
           requests:
             cpu: 100m

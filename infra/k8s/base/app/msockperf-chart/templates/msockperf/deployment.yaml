@@ -23,11 +23,11 @@ spec:
         image: {{ .Values.msockperf.image }}
         env:
         - name: MSOCK_NAMESPACE
-          value: {{ .Values.msockperf.namespace }}
+          value: "{{ .Values.msockperf.namespace }}"
         - name: MSOCK_REMOTE_HOST
-          value: {{ .Values.msockperf.remoteHost }}
+          value: "{{ .Values.msockperf.remoteHost }}"
         - name: MSOCK_REMOTE_PORT
-          value: {{ .Values.msockperf.remotePort }}
+          value: "{{ .Values.msockperf.remotePort }}"
         ports:
         - name: web #web interface
           containerPort: {{ .Values.msockperf.webPort }}
