@@ -20,10 +20,11 @@ spec:
       - name: {{ .Values.sockperfServer.appName }}
         imagePullPolicy: Always
         image: {{ .Values.sockperfServer.image }}
+        command: ["/bin/bash", "-c", "sockperf server -p {{ .Values.sockperfServer.sockperfPort }} --tcp"]
         # ports:
         # - name: web #web interface
         #   containerPort: "{{ .Values.sockperfServer.sockperfPort }}"
-        command: ["/bin/bash", "-c", "sockperf server -p {{ .Values.sockperfServer.sockperfPort }} --tcp"]
+        # command: ["./msockperf"]
         resources:
           requests:
             cpu: 100m

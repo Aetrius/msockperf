@@ -11,10 +11,10 @@ config:
 msockperf:
   serviceName: msockperf-service
   appName: msockperf-app
-  image: ghcr.io/aetrius/msockperf-server/msockperf-server:main
+  image: ghcr.io/aetrius/msockperf-client/msockperf-client:main
   replicaCount: 1
   revisionHistoryLimit: 1
   webPort: 8082
   namespace: default
-  remoteHost: test.svc.default
+  remoteHost: msockperf-service
   remotePort: 443
