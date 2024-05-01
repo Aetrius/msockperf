@@ -1,0 +1,17 @@
+{{- if .Values.servicemonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Values.msockperf.appName }}-monitor
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    app: {{ .Values.msockperf.appName }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.msockperf.appName }}
+  endpoints:
+  - port: web
+    path: /metrics
+    interval: 15s
+{{- end }}

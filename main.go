@@ -23,7 +23,7 @@ var (
 			Help:       "Summary of sockperf latency in [Microseconds]",
 			Objectives: map[float64]float64{0.25: 0.25, 0.5: 0.05, 0.75: 0.05, 0.9: 0.9, 0.99: 0.99, 0.999: 0.999, 0.9999: 0.9999},
 		},
-		[]string{"namespace"},
+		[]string{"namespace", "pod_ip", "node_name"},
 	)
 
 	runTimeGauge = prometheus.NewGaugeVec(
@@ -31,7 +31,7 @@ var (
 			Name: "msockperf_runtime_gauge",
 			Help: "Total Runtime of the sockperf benchmark test - [seconds]",
 		},
-		[]string{"namespace"}, // Define the namespace label here
+		[]string{"namespace", "pod_ip", "node_name"}, // Define the namespace label here
 	)
 
 	sentMessagesGauge = prometheus.NewGaugeVec(
@@ -40,7 +40,7 @@ var (
 			Name: "msockperf_sent_messages_gauge",
 			Help: "Total messages sent through the sockperf benchmark test - [quantity of messages]",
 		},
-		[]string{"namespace"}, // Define the namespace label here
+		[]string{"namespace", "pod_ip", "node_name"}, // Define the namespace label here
 	)
 
 	receivedMessagesGauge = prometheus.NewGaugeVec(
@@ -49,7 +49,7 @@ var (
 			Name: "msockperf_received_messages_gauge",
 			Help: "Total messages received through the sockperf benchmark test - [quantity of messages]",
 		},
-		[]string{"namespace"}, // Define the namespace label here
+		[]string{"namespace", "pod_ip", "node_name"}, // Define the namespace label here
 	)
 
 	latencyAvgGauge = prometheus.NewGaugeVec(
@@ -58,7 +58,7 @@ var (
 			Name: "msockperf_avg_latency_gauge",
 			Help: "Average Latency of the msockperf benchmark test - [usec - Microseconds]",
 		},
-		[]string{"namespace"}, // Define the namespace label here
+		[]string{"namespace", "pod_ip", "node_name"}, // Define the namespace label here
 	)
 
 	droppedMessagesGauge = prometheus.NewGaugeVec(
@@ -67,7 +67,7 @@ var (
 			Name: "msockperf_dropped_messages_gauge",
 			Help: "Count of dropped messages from the msockperf benchmark test - [quantity of messages]",
 		},
-		[]string{"namespace"}, // Define the namespace label here
+		[]string{"namespace", "pod_ip", "node_name"}, // Define the namespace label here
 	)
 )
 
@@ -89,11 +89,15 @@ func main() {
 	host := "127.0.0.1"
 	port := "11111"
 	namespace := "default"
+	podIp := "undefined"
+	nodeName := "undefined"
 
 	// Pull values for the run
 	host = getEnvVars("MSOCK_REMOTE_HOST", host)
 	port = getEnvVars("MSOCK_REMOTE_PORT", port)
 	namespace = getEnvVars("MSOCK_NAMESPACE", namespace)
+	podIp = getEnvVars("POD_IP", podIp)
+	nodeName = getEnvVars("NODE_NAME", nodeName)
 
 	// Resolve host if it's not an IP address
 	host = resolveHost(host)
@@ -101,6 +105,8 @@ func main() {
 	fmt.Println("Host: ", host)
 	fmt.Println("Port: ", port)
 	fmt.Println("Namespace: ", namespace)
+	fmt.Println("Pod IP: ", podIp)
+	fmt.Println("Node Name ", nodeName)
 
 	prometheus.Register(latencySummary)
 	prometheus.Register(runTimeGauge)
@@ -109,7 +115,7 @@ func main() {
 	prometheus.Register(latencyAvgGauge)
 	prometheus.Register(droppedMessagesGauge)
 
-	http.Handle("/metrics", newHandlerWithHistogram(promhttp.Handler(), latencySummary, host, port, namespace))
+	http.Handle("/metrics", newHandlerWithHistogram(promhttp.Handler(), latencySummary, host, port, namespace, podIp, nodeName))
 
 	// go func() {
 	// 	for {
@@ -123,7 +129,7 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8082", nil))
 }
 
-func newHandlerWithHistogram(handler http.Handler, summary *prometheus.SummaryVec, host string, port string, namespace string) http.Handler {
+func newHandlerWithHistogram(handler http.Handler, summary *prometheus.SummaryVec, host string, port string, namespace string, podIp string, nodeName string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		status := http.StatusOK
 		defer func() {
@@ -131,24 +137,24 @@ func newHandlerWithHistogram(handler http.Handler, summary *prometheus.SummaryVe
 			observations.AdjustPercentiles()
 
 			// Observe values in the summary
-			summary.WithLabelValues(namespace).Observe(observations.p25000)
-			summary.WithLabelValues(namespace).Observe(observations.p50000)
-			summary.WithLabelValues(namespace).Observe(observations.p75000)
-			summary.WithLabelValues(namespace).Observe(observations.p90000)
-			summary.WithLabelValues(namespace).Observe(observations.p99000)
-			summary.WithLabelValues(namespace).Observe(observations.p99900)
-			summary.WithLabelValues(namespace).Observe(observations.p99990)
+			summary.WithLabelValues(namespace, podIp, nodeName).Observe(observations.p25000)
+			summary.WithLabelValues(namespace, podIp, nodeName).Observe(observations.p50000)
+			summary.WithLabelValues(namespace, podIp, nodeName).Observe(observations.p75000)
+			summary.WithLabelValues(namespace, podIp, nodeName).Observe(observations.p90000)
+			summary.WithLabelValues(namespace, podIp, nodeName).Observe(observations.p99000)
+			summary.WithLabelValues(namespace, podIp, nodeName).Observe(observations.p99900)
+			summary.WithLabelValues(namespace, podIp, nodeName).Observe(observations.p99990)
 
 			//runTimeGauge.Add(observations.runTime)
 			//sentMessagesGauge.Add(observations.sentMessages)
 			//receivedMessagesGauge.Add(observations.receivedMessages)
 			//latencyAvgGauge.Add(observations.avgLatency)
 			//droppedMessagesGauge.Add(observations.droppedMessages)
-			runTimeGauge.WithLabelValues(namespace).Set(observations.runTime)
-			sentMessagesGauge.WithLabelValues(namespace).Set(observations.sentMessages)
-			receivedMessagesGauge.WithLabelValues(namespace).Set(observations.receivedMessages)
-			latencyAvgGauge.WithLabelValues(namespace).Set(observations.avgLatency)
-			droppedMessagesGauge.WithLabelValues(namespace).Set(observations.droppedMessages)
+			runTimeGauge.WithLabelValues(namespace, podIp, nodeName).Set(observations.runTime)
+			sentMessagesGauge.WithLabelValues(namespace, podIp, nodeName).Set(observations.sentMessages)
+			receivedMessagesGauge.WithLabelValues(namespace, podIp, nodeName).Set(observations.receivedMessages)
+			latencyAvgGauge.WithLabelValues(namespace, podIp, nodeName).Set(observations.avgLatency)
+			droppedMessagesGauge.WithLabelValues(namespace, podIp, nodeName).Set(observations.droppedMessages)
 
 		}()
 

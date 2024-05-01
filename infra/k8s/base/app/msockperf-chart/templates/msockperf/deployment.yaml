@@ -28,6 +28,14 @@ spec:
           value: "{{ .Values.msockperf.remoteHost }}"
         - name: MSOCK_REMOTE_PORT
           value: "{{ .Values.msockperf.remotePort }}"
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP # Expose pod's IP address
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName # Expose node name
         ports:
         - name: web #web interface
           containerPort: {{ .Values.msockperf.webPort }}
@@ -42,8 +50,8 @@ spec:
           httpGet:
             path: /metrics
             port: {{ .Values.msockperf.webPort }}
-          initialDelaySeconds: 4
-          periodSeconds: 10
+          initialDelaySeconds: 2
+          periodSeconds: 2
           timeoutSeconds: 5
           successThreshold: 1
           failureThreshold: 3

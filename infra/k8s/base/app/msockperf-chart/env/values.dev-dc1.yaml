@@ -12,6 +12,9 @@ labels:
 ingress:
   enabled: true
 
+servicemonitor:
+  enabled: true
+
 portworx:
   enabled: false
 

@@ -1,3 +1,4 @@
+{{- if .Values.msockperf }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -37,3 +38,4 @@ spec:
           limits:
             cpu: 150m
             memory: 120Mi
+{{- end }}

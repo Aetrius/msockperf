@@ -1,42 +1,80 @@
----
+# Namespace configuration
 namespace:
+  # Whether to enable namespace creation
   enabled: true
+  # Name of the namespace
   name: sre-msockperf-exporter
 
+# Domain name for environment
 environmentDomain: msockperf.domainname.com
 
+# Labels configuration
 labels:
+  # Whether to enable labels
   enabled: true
+  # Owner label
   owner: "sre"
 
+# Ingress configuration
 ingress:
+  # Whether to enable ingress
   enabled: true
 
+# ServiceMonitor configuration
+servicemonitor:
+  # Whether to enable ServiceMonitor
+  enabled: true
+
+# Portworx configuration
 portworx:
+  # Whether to enable Portworx
   enabled: false
 
+# Rancher configuration
 rancher:
+  # Whether to enable Rancher
   enabled: true
+  # Rancher project ID
   projectID: 
 
+# msockperf configuration
 msockperf:
+  # Service name
   serviceName: msockperf-service
+  # App name
   appName: msockperf-app
+  # Docker image for msockperf
   image: ghcr.io/aetrius/msockperf-client/msockperf-client:main
+  # Number of replicas
   replicaCount: 1
+  # Revision history limit
   revisionHistoryLimit: 0
+  # Web port
   webPort: 8082
+  # Namespace for msockperf
   namespace: default
+  # Remote host
   remoteHost: sockperf-server-service.sre-msockperf-exporter
+  # Remote port
   remotePort: 3600
+  # Service port
   servicePort: 8000
+  # Image pull policy
   imagePullPolicy: Always
 
+# sockperfServer configuration
 sockperfServer:
+  # Service name
   serviceName: sockperf-server-service
+  # App name
   appName: sockperf-app
+  # Docker image for sockperfServer
   image: ghcr.io/aetrius/msockperf-server/msockperf-server:main
+  # Number of replicas
   replicaCount: 1
+  # Revision history limit
   revisionHistoryLimit: 1
+  # Sockperf port
   sockperfPort: 3600
+  # Web port
   webPort: 3600
