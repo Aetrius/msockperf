@@ -21,47 +21,12 @@ helm install msockperf infra/k8s/base/app/msockperf-chart -f infra/k8s/base/app/
 helm upgrade msockperf infra/k8s/base/app/msockperf-chart -f infra/k8s/base/app/msockperf-chart/env/values.local.yaml
 ```
 
+
+
 You can then run `helm search repo aetrius/msockperf` to see the charts.
 
 <!-- Keep full URL links to repo files because this README syncs from main to gh-pages.  -->
 Chart documentation is available in [aetrius/msockperf directory](https://github.com/aetrius/msockperf/README.md).
-
-## Contributing
-
-<!-- Keep full URL links to repo files because this README syncs from main to gh-pages.  -->
-We'd love to have you contribute! Please refer to our [contribution guidelines](https://github.com/aetrius/msockperf/CONTRIBUTING.md) for details.
-
-## License
-
-<!-- Keep full URL links to repo files because this README syncs from main to gh-pages.  -->
-[Apache 2.0 License](https://github.com/aetrius/msockperf/LICENSE).
-
-
-## Build Process for binary
-
-  `bash
-    make build
-  ` 
-
-## TODO
-- Add env vars into the golang code, or make it as a param to pass in. This will allow targeting the server host and startup params.
-
-## Running Test Locally in Docker
-
-  `bash
-
-    docker-compose build -f docker-compose.yml
-
-    docker-compose up -f docker-compose-server.yml # Target whatever host you want to run from as a server.
-
-    docker-compose up -f docker-compose.yml # Applies to the target host you want as a client. Keep in mind I haven't added the env var yet.
-    
-  `
-
-## Run
-Run docker-compose to run this exporter adhoc OR run the go code.
-
-
 
 
 ## Values
@@ -97,3 +62,36 @@ Values table
 | `sockperfServer.revisionHistoryLimit` | Revision history limit           | `1`            | Integer (revision limit) |
 | `sockperfServer.sockperfPort` | Port for Sockperf Server               | `3600`         | Integer (port number) |
 | `sockperfServer.webPort` | Web port for Sockperf Server             | `3600`         | Integer (port number) |
+
+
+## Build Process for binary locally
+
+  `bash
+    make build
+  ` 
+
+## Contributing
+
+<!-- Keep full URL links to repo files because this README syncs from main to gh-pages.  -->
+We'd love to have you contribute! Please refer to our [contribution guidelines](https://github.com/aetrius/msockperf/CONTRIBUTING.md) for details.
+
+
+## Running Test Locally in Docker
+
+  `bash
+
+    docker-compose build -f docker-compose.yml
+
+    docker-compose up -f docker-compose-server.yml # Target whatever host you want to run from as a server.
+
+    docker-compose up -f docker-compose.yml # Applies to the target host you want as a client. Keep in mind I haven't added the env var yet.
+    
+  `
+
+
+## License
+
+<!-- Keep full URL links to repo files because this README syncs from main to gh-pages.  -->
+[Apache 2.0 License](https://github.com/aetrius/msockperf/LICENSE).
+
+
