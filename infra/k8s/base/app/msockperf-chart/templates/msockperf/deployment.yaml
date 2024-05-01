@@ -38,12 +38,12 @@ spec:
           limits:
             cpu: 200m
             memory: 400Mi
-        # readinessProbe:
-        #   httpGet:
-        #     path: /metrics
-        #     port: 8082
-        #   initialDelaySeconds: 4
-        #   periodSeconds: 10
-        #   timeoutSeconds: 5
-        #   successThreshold: 1
-        #   failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /metrics
+            port: {{ .Values.msockperf.webPort }}
+          initialDelaySeconds: 4
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
