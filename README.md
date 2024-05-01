@@ -11,13 +11,13 @@ Please refer to Helm's [documentation](https://helm.sh/docs/) to get started.
 Once Helm is set up properly, add the repo as follows:
 
 ```console
-helm repo add aetrius/msockperf https://aetrius.github.io/msockperf
+helm repo add aetrius https://aetrius.github.io 
 
 helm install msockperf
 
 or 
 
-helm repo add aetrius/msockperf https://aetrius.github.io/msockperf
+helm repo add aetrius https://aetrius.github.io 
 
 helm install msockperf infra/k8s/base/app/msockperf-chart -f infra/k8s/base/app/msockperf-chart/env/values.local.yaml
 
