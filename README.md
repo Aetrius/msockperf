@@ -16,6 +16,8 @@ helm install msockperf
 
 or 
 
+helm repo add aetrius/msockperf https://aetrius.github.io/msockperf
+
 helm install msockperf infra/k8s/base/app/msockperf-chart -f infra/k8s/base/app/msockperf-chart/env/values.local.yaml
 
 helm upgrade msockperf infra/k8s/base/app/msockperf-chart -f infra/k8s/base/app/msockperf-chart/env/values.local.yaml
