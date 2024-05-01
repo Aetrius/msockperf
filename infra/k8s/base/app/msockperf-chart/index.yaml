@@ -1,0 +1,23 @@
+apiVersion: v1
+entries:
+  msockperf:
+  - apiVersion: v2
+    name: msockperf
+    version: 1.0.4
+    created: 2024-05-01T09:50:31.823462-05:00
+    description: Helm chart for deploying Msockperf
+    digest: sha:baf9f30c13f7e5f9713ed2ae3e217a626561e54506c13ac858a82ab5d9c5493c
+    urls:
+    - https://github.com/Aetrius/msockperf/blob/main/msockperf-chart-0.1.4.tgz
+    maintainers:
+    - name: Tyler Bennet
+      email: tylerwbennet@gmail.com
+    home: https://github.com/Aetrius/msockperf
+    keywords:
+    - msockperf
+    - monitoring
+    - network
+    - kubernetes
+    - latency
+    - pod
+generated: "2024-05-01T09:36:31.823462-05:00"
