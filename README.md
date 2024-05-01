@@ -13,7 +13,7 @@ Once Helm is set up properly, add the repo as follows:
 ```console
 helm repo add aetrius https://aetrius.github.io 
 
-helm install msockperf
+helm install msockperf aetrius/msockperf
 
 or 
 
