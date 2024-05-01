@@ -91,6 +91,7 @@ func main() {
 	namespace := "default"
 	podIp := "undefined"
 	nodeName := "undefined"
+	node := "undefined"
 
 	// Pull values for the run
 	host = getEnvVars("MSOCK_REMOTE_HOST", host)
@@ -98,15 +99,21 @@ func main() {
 	namespace = getEnvVars("MSOCK_NAMESPACE", namespace)
 	podIp = getEnvVars("POD_IP", podIp)
 	nodeName = getEnvVars("NODE_NAME", nodeName)
+	node = getEnvVars("NODE", nodeName)
 
 	// Resolve host if it's not an IP address
 	host = resolveHost(host)
+
+	if nodeName == "undefined" {
+		nodeName = node
+	}
 
 	fmt.Println("Host: ", host)
 	fmt.Println("Port: ", port)
 	fmt.Println("Namespace: ", namespace)
 	fmt.Println("Pod IP: ", podIp)
 	fmt.Println("Node Name ", nodeName)
+	fmt.Println("Node ", node)
 
 	prometheus.Register(latencySummary)
 	prometheus.Register(runTimeGauge)
