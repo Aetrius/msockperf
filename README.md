@@ -2,6 +2,8 @@
 # Monitoring + SockPerf 
 The code is provided as-is with no warranties.
 
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/aetrius)](https://artifacthub.io/packages/search?repo=aetrius)
+
 ## Usage
 
 [Helm](https://helm.sh) must be installed to use the charts.
