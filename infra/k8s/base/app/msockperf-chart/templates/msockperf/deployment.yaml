@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.msockperf.appName }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ .Values.namespace.name }}
   labels:
     app: {{ .Values.msockperf.appName }}
 spec:
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: {{ .Values.msockperf.appName }}
-        imagePullPolicy: Always
+        imagePullPolicy: {{ .Values.msockperf.imagePullPolicy }}
         image: {{ .Values.msockperf.image }}
         env:
         - name: MSOCK_NAMESPACE

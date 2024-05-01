@@ -1,12 +1,23 @@
-# Default values for msockperf
-namespace: sre-msockperf-exporter
+---
+namespace:
+  enabled: true
+  name: sre-msockperf-exporter
 
-# Image Pull Secret from CICD Pipeline
-# imagePullSecret: regcred
+environmentDomain: msockperf.domainname.com
 
-environmentDomain: msockperf.env.domainname.com
+labels:
+  enabled: true
+  owner: "sre"
 
-config:
+ingress:
+  enabled: true
+
+portworx:
+  enabled: false
+
+rancher:
+  enabled: true
+  projectID: 
 
 msockperf:
   serviceName: msockperf-service
@@ -16,6 +27,16 @@ msockperf:
   revisionHistoryLimit: 0
   webPort: 8082
   namespace: default
-  remoteHost: 10.43.232.86
+  remoteHost: sockperf-server-service.sre-msockperf-exporter
   remotePort: 3600
   servicePort: 8000
+  imagePullPolicy: Always
+
+sockperfServer:
+  serviceName: sockperf-server-service
+  appName: sockperf-app
+  image: ghcr.io/aetrius/msockperf-server/msockperf-server:main
+  replicaCount: 1
+  revisionHistoryLimit: 1
+  sockperfPort: 3600
+  webPort: 3600

@@ -2,7 +2,7 @@
 Expand the name of the chart.
 */}}
 {{- define "msockperf-chart.name" -}}
-{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- default .Chart.Name .Values.msockperf.appName | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
@@ -11,10 +11,10 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 If release name contains chart name it will be used as a full name.
 */}}
 {{- define "msockperf-chart.fullname" -}}
-{{- if .Values.fullnameOverride }}
-{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- if .Values.msockperf.fullnameOverride }}
+{{- .Values.msockperf.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{- $name := default .Chart.Name .Values.nameOverride }}
+{{- $name := default .Chart.Name .Values.msockperf.appName }}
 {{- if contains $name .Release.Name }}
 {{- .Release.Name | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -22,6 +22,15 @@ If release name contains chart name it will be used as a full name.
 {{- end }}
 {{- end }}
 {{- end }}
+
+ __    __  ______  ______  ______  __  __   ______  ______  ______  ______  
+/\ "-./  \/\  ___\/\  __ \/\  ___\/\ \/ /  /\  == \/\  ___\/\  == \/\  ___\ 
+\ \ \-./\ \ \___  \ \ \/\ \ \ \___\ \  _"-.\ \  _-/\ \  __\\ \  __<\ \  __\ 
+ \ \_\ \ \_\/\_____\ \_____\ \_____\ \_\ \_\\ \_\   \ \_____\ \_\ \_\ \_\   
+  \/_/  \/_/\/_____/\/_____/\/_____/\/_/\/_/ \/_/    \/_____/\/_/ /_/\/_/   
+                                                                           
+Get ready to sockperf your things with latency with SRE ⚡️ monitoring principals in mind!
+AKA MSOCKPERF - Monitoring + Sockperf ⚡️⚡️⚡️
 
 {{/*
 Create chart name and version as used by the chart label.
@@ -51,12 +60,9 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
-Create the name of the service account to use
+Annotations
 */}}
-{{- define "msockperf-chart.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "msockperf-chart.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
+{{- define "msockperf-chart.annotations" -}}
+meta.helm.sh/release-name: {{ .Release.Name }}
+meta.helm.sh/release-namespace: {{ .Release.Namespace }}
 {{- end }}

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Values.msockperf.serviceName }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ .Values.namespace.name }}
 spec:
   ports:
   - port: {{ .Values.msockperf.servicePort }}

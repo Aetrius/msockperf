@@ -1,1 +1,1 @@
-HELM_KUBECONTEXT=dev-dc1 helm upgrade msockperf-chart msockperf-chart/ --namespace sre-msockperf-exporter -f msockperf-chart/env/values.local.yaml
+helm install msockperf infra/k8s/base/app/msockperf-chart -f infra/k8s/base/app/msockperf-chart/env/values.local.yaml
