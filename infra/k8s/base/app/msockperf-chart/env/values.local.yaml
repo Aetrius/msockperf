@@ -19,7 +19,7 @@ portworx:
   enabled: false
 
 rancher:
-  enabled: true
+  enabled: false
   projectID: 
 
 msockperf:
