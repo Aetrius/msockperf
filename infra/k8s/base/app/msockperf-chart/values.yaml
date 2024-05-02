@@ -33,7 +33,7 @@ portworx:
 # Rancher configuration
 rancher:
   # Whether to enable Rancher
-  enabled: true
+  enabled: false
   # Rancher project ID
   projectID: 
 

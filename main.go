@@ -23,7 +23,7 @@ var (
 			Help:       "Summary of sockperf latency in [Microseconds]",
 			Objectives: map[float64]float64{0.25: 0.25, 0.5: 0.05, 0.75: 0.05, 0.9: 0.9, 0.99: 0.99, 0.999: 0.999, 0.9999: 0.9999},
 		},
-		[]string{"namespace", "pod_ip", "node_name"},
+		[]string{"namespace", "pod_ip", "node_name", "destination"},
 	)
 
 	runTimeGauge = prometheus.NewGaugeVec(
@@ -31,7 +31,7 @@ var (
 			Name: "msockperf_runtime_gauge",
 			Help: "Total Runtime of the sockperf benchmark test - [seconds]",
 		},
-		[]string{"namespace", "pod_ip", "node_name"}, // Define the namespace label here
+		[]string{"namespace", "pod_ip", "node_name", "destination"}, // Define the namespace label here
 	)
 
 	sentMessagesGauge = prometheus.NewGaugeVec(
@@ -40,7 +40,7 @@ var (
 			Name: "msockperf_sent_messages_gauge",
 			Help: "Total messages sent through the sockperf benchmark test - [quantity of messages]",
 		},
-		[]string{"namespace", "pod_ip", "node_name"}, // Define the namespace label here
+		[]string{"namespace", "pod_ip", "node_name", "destination"}, // Define the namespace label here
 	)
 
 	receivedMessagesGauge = prometheus.NewGaugeVec(
@@ -49,7 +49,7 @@ var (
 			Name: "msockperf_received_messages_gauge",
 			Help: "Total messages received through the sockperf benchmark test - [quantity of messages]",
 		},
-		[]string{"namespace", "pod_ip", "node_name"}, // Define the namespace label here
+		[]string{"namespace", "pod_ip", "node_name", "destination"}, // Define the namespace label here
 	)
 
 	latencyAvgGauge = prometheus.NewGaugeVec(
@@ -58,7 +58,7 @@ var (
 			Name: "msockperf_avg_latency_gauge",
 			Help: "Average Latency of the msockperf benchmark test - [usec - Microseconds]",
 		},
-		[]string{"namespace", "pod_ip", "node_name"}, // Define the namespace label here
+		[]string{"namespace", "pod_ip", "node_name", "destination"}, // Define the namespace label here
 	)
 
 	droppedMessagesGauge = prometheus.NewGaugeVec(
@@ -67,7 +67,7 @@ var (
 			Name: "msockperf_dropped_messages_gauge",
 			Help: "Count of dropped messages from the msockperf benchmark test - [quantity of messages]",
 		},
-		[]string{"namespace", "pod_ip", "node_name"}, // Define the namespace label here
+		[]string{"namespace", "pod_ip", "node_name", "destination"}, // Define the namespace label here
 	)
 )
 
@@ -83,7 +83,6 @@ func getEnvVars(key, defaultValue string) string {
 
 func main() {
 	rand.Seed(time.Now().Unix())
-	// os package
 
 	// Default values
 	host := "127.0.0.1"
@@ -144,24 +143,19 @@ func newHandlerWithHistogram(handler http.Handler, summary *prometheus.SummaryVe
 			observations.AdjustPercentiles()
 
 			// Observe values in the summary
-			summary.WithLabelValues(namespace, podIp, nodeName).Observe(observations.p25000)
-			summary.WithLabelValues(namespace, podIp, nodeName).Observe(observations.p50000)
-			summary.WithLabelValues(namespace, podIp, nodeName).Observe(observations.p75000)
-			summary.WithLabelValues(namespace, podIp, nodeName).Observe(observations.p90000)
-			summary.WithLabelValues(namespace, podIp, nodeName).Observe(observations.p99000)
-			summary.WithLabelValues(namespace, podIp, nodeName).Observe(observations.p99900)
-			summary.WithLabelValues(namespace, podIp, nodeName).Observe(observations.p99990)
+			summary.WithLabelValues(namespace, podIp, nodeName, host).Observe(observations.p25000)
+			summary.WithLabelValues(namespace, podIp, nodeName, host).Observe(observations.p50000)
+			summary.WithLabelValues(namespace, podIp, nodeName, host).Observe(observations.p75000)
+			summary.WithLabelValues(namespace, podIp, nodeName, host).Observe(observations.p90000)
+			summary.WithLabelValues(namespace, podIp, nodeName, host).Observe(observations.p99000)
+			summary.WithLabelValues(namespace, podIp, nodeName, host).Observe(observations.p99900)
+			summary.WithLabelValues(namespace, podIp, nodeName, host).Observe(observations.p99990)
 
-			//runTimeGauge.Add(observations.runTime)
-			//sentMessagesGauge.Add(observations.sentMessages)
-			//receivedMessagesGauge.Add(observations.receivedMessages)
-			//latencyAvgGauge.Add(observations.avgLatency)
-			//droppedMessagesGauge.Add(observations.droppedMessages)
-			runTimeGauge.WithLabelValues(namespace, podIp, nodeName).Set(observations.runTime)
-			sentMessagesGauge.WithLabelValues(namespace, podIp, nodeName).Set(observations.sentMessages)
-			receivedMessagesGauge.WithLabelValues(namespace, podIp, nodeName).Set(observations.receivedMessages)
-			latencyAvgGauge.WithLabelValues(namespace, podIp, nodeName).Set(observations.avgLatency)
-			droppedMessagesGauge.WithLabelValues(namespace, podIp, nodeName).Set(observations.droppedMessages)
+			runTimeGauge.WithLabelValues(namespace, podIp, nodeName, host).Set(observations.runTime)
+			sentMessagesGauge.WithLabelValues(namespace, podIp, nodeName, host).Set(observations.sentMessages)
+			receivedMessagesGauge.WithLabelValues(namespace, podIp, nodeName, host).Set(observations.receivedMessages)
+			latencyAvgGauge.WithLabelValues(namespace, podIp, nodeName, host).Set(observations.avgLatency)
+			droppedMessagesGauge.WithLabelValues(namespace, podIp, nodeName, host).Set(observations.droppedMessages)
 
 		}()
 
