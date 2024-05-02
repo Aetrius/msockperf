@@ -31,6 +31,23 @@ You can then run `helm search repo aetrius/msockperf` to see the charts.
 <!-- Keep full URL links to repo files because this README syncs from main to gh-pages.  -->
 Chart documentation is available in [aetrius/msockperf directory](https://github.com/aetrius/msockperf/README.md).
 
+## Metrics
+
+Metric                              | Description                                          | Value   
+------------------------------------ | ---------------------------------------------------- | --------
+Average Latency                     | Average latency of the msockperf benchmark test      | usec  
+Dropped Messages Count              | Count of dropped messages from the benchmark test    | count     
+Latency Summary (Quantile 0.25)     | Latency at 25th percentile                            | usec 
+Latency Summary (Quantile 0.5)      | Latency at 50th percentile (median)                  | usec   
+Latency Summary (Quantile 0.75)     | Latency at 75th percentile                            | usec
+Latency Summary (Quantile 0.9)      | Latency at 90th percentile                            | usec
+Latency Summary (Quantile 0.99)     | Latency at 99th percentile                            | usec 
+Latency Summary (Quantile 0.999)    | Latency at 99.9th percentile                          | usec 
+Latency Summary (Quantile 0.9999)   | Latency at 99.99th percentile                         | usec 
+Total Received Messages             | Total messages received through the benchmark test   | count   
+Total Runtime                       | Total runtime of the benchmark test                  | count  
+Total Sent Messages                 | Total messages sent through the benchmark test       | count    
+
 
 ## Values
 Values table
